@@ -7,8 +7,7 @@
 -- 1. Puedes usar la función julianday para convertir una fecha a un número.
 -- 2. Puedes usar la función CAST para convertir un número a un entero.
 -- 3. Puedes usar la función STRFTIME para convertir order_delivered_customer_date a una cadena, eliminando horas, minutos y segundos.
--- 4. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL
-
+-- 4. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL 
 
 SELECT order_status AS Estado, 
 CAST(AVG(julianday( STRFTIME(order_delivered_customer_date)) - julianday(order_estimated_delivery_date)) AS INTEGER) AS Diferencia_Entrega
