@@ -20,6 +20,5 @@ def load(data_frames: Dict[str, DataFrame], database: Engine):
         for table_name, df in data_frames.items():
             df.to_sql(table_name, database, if_exists="replace", index=False)
     except Exception as e:
-        print(e)
         raise SystemExit(e.message)
     

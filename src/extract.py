@@ -29,8 +29,7 @@ def get_public_holidays(public_holidays_url: str, year: str) -> DataFrame:
     # de la biblioteca requests.
 
     try:
-        url = f"{public_holidays_url}/{year}/BR"
-        print(url)
+        url = f"{public_holidays_url}/{year}/BR" 
         response = requests.get(url)
         response.raise_for_status()
         data = response.json()
@@ -42,7 +41,6 @@ def get_public_holidays(public_holidays_url: str, year: str) -> DataFrame:
         print(e)
         raise SystemExit(e)
 
-    #raise NotImplementedError
 
 
 def extract(
