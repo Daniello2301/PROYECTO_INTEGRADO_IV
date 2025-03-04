@@ -1,3 +1,10 @@
 -- TODO: Esta consulta devolverá una tabla con dos columnas: estado_pedido y
 -- Cantidad. La primera contendrá las diferentes clases de estado de los pedidos,
 -- y la segunda mostrará el total de cada uno.
+
+
+SELECT
+    oo.order_status,
+    COUNT(*) AS Ammount
+FROM olist_orders oo
+GROUP BY  oo.order_status;

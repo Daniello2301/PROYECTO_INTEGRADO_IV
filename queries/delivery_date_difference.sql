@@ -9,9 +9,12 @@
 -- 3. Puedes usar la función STRFTIME para convertir order_delivered_customer_date a una cadena, eliminando horas, minutos y segundos.
 -- 4. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL 
 
-SELECT order_status AS Estado, 
-CAST(AVG(julianday( STRFTIME(order_delivered_customer_date)) - julianday(order_estimated_delivery_date)) AS INTEGER) AS Diferencia_Entrega
-FROM orders
-WHERE order_status = 'delivered' AND order_delivered_customer_date IS NOT NULL
-GROUP BY order_status
-ORDER BY Diferencia_Entrega DESC;
+SELECT
+    oc.customer_state AS Estado,
+    CAST(AVG( julianday( STRFTIME('%Y-%m-%d',oo.order_estimated_delivery_date)) - julianday( STRFTIME('%Y-%m-%d', oo.order_delivered_customer_date))) AS INTEGER) AS Diferencia_Entrega
+FROM olist_orders oo
+    JOIN olist_customers oc
+    ON oo.customer_id = oc.customer_id
+WHERE oo.order_delivered_customer_date IS NOT NULL AND oo.order_status = 'delivered'
+GROUP BY oc.customer_state
+ORDER BY Diferencia_Entrega ASC
