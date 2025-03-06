@@ -16,8 +16,8 @@
 -- 3. Considera tomar order_id distintos.
 WITH delivery_times AS (
     SELECT 
-        ROUND(JULIANDAY(  STRFTIME( '%Y-%m-%d', oo.order_delivered_customer_date)) - JULIANDAY( STRFTIME('%Y-%m-%d', oo.order_approved_at )), 2) AS real_time,
-        ROUND(JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_estimated_delivery_date)) - JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_approved_at)), 2) AS estimated_time,
+        ROUND(JULIANDAY(  STRFTIME( '%Y-%m-%d', oo.order_delivered_customer_date)) - JULIANDAY( STRFTIME('%Y-%m-%d', oo.order_purchase_timestamp )), 2) AS real_time,
+        ROUND(JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_estimated_delivery_date)) - JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_purchase_timestamp)), 2) AS estimated_time,
         STRFTIME('%m', oo.order_delivered_customer_date) AS month_no,
         CASE STRFTIME('%m', oo.order_delivered_customer_date)
             WHEN '01' THEN 'Ene' WHEN '02' THEN 'Feb' WHEN '03' THEN 'Mar'
