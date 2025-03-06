@@ -5,8 +5,8 @@
 -- Year2017, con los ingresos por mes de 2017 (0.00 si no existe); y
 -- Year2018, con los ingresos por mes de 2018 (0.00 si no existe).
 SELECT 
-	STRFTIME('%m', oo.order_purchase_timestamp) as  	month_no
-	, CASE STRFTIME('%m', oo.order_purchase_timestamp)
+	STRFTIME('%m', oo.order_delivered_customer_date ) as  	month_no
+	, CASE STRFTIME('%m', oo.order_delivered_customer_date)
             WHEN '01' THEN 'Jan' 
             WHEN '02' THEN 'Feb' 
             WHEN '03' THEN 'Mar'
@@ -20,9 +20,9 @@ SELECT
             WHEN '11' THEN 'Nov' 
             WHEN '12' THEN 'Dec'
         END AS month
-    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_purchase_timestamp ) = '2016' THEN oop.payment_value ELSE 0.00 END ) AS Year2016
-    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_purchase_timestamp ) = '2017' THEN oop.payment_value ELSE 0.00 END ) AS Year2017
-    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_purchase_timestamp ) = '2018' THEN oop.payment_value ELSE 0.00 END ) AS Year2018
+    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_delivered_customer_date ) = '2016' THEN oop.payment_value ELSE 0.00 END ) AS Year2016
+    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_delivered_customer_date ) = '2017' THEN oop.payment_value ELSE 0.00 END ) AS Year2017
+    , 	SUM( CASE WHEN STRFTIME('%Y', oo.order_delivered_customer_date ) = '2018' THEN oop.payment_value ELSE 0.00 END ) AS Year2018
 FROM olist_orders oo 
 JOIN olist_order_payments oop  ON oo.order_id  = oop.order_id
 GROUP BY month_no
