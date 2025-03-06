@@ -14,3 +14,33 @@
 -- 1. Puedes usar la función julianday para convertir una fecha a un número.
 -- 2. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL
 -- 3. Considera tomar order_id distintos.
+WITH delivery_times AS (
+    SELECT 
+        ROUND(JULIANDAY(  STRFTIME( '%Y-%m-%d', oo.order_delivered_customer_date)) - JULIANDAY( STRFTIME('%Y-%m-%d', oo.order_approved_at )), 2) AS real_time,
+        ROUND(JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_estimated_delivery_date)) - JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_approved_at)), 2) AS estimated_time,
+        STRFTIME('%m', oo.order_delivered_customer_date) AS month_no,
+        CASE STRFTIME('%m', oo.order_delivered_customer_date)
+            WHEN '01' THEN 'Ene' WHEN '02' THEN 'Feb' WHEN '03' THEN 'Mar'
+            WHEN '04' THEN 'Abr' WHEN '05' THEN 'May' WHEN '06' THEN 'Jun'
+            WHEN '07' THEN 'Jul' WHEN '08' THEN 'Ago' WHEN '09' THEN 'Sep'
+            WHEN '10' THEN 'Oct' WHEN '11' THEN 'Nov' WHEN '12' THEN 'Dic'
+        END AS month,
+        STRFTIME('%Y', oo.order_delivered_customer_date) AS year_date
+    FROM olist_orders oo
+    WHERE oo.order_status = 'delivered' 
+)
+SELECT 
+    d.month_no,
+    d.month,
+    -- Real delivery times
+    AVG(CASE WHEN d.year_date = '2016' THEN d.real_time END) AS Year2016_real_time,
+    AVG(CASE WHEN d.year_date = '2017' THEN d.real_time END) AS Year2017_real_time,
+    AVG(CASE WHEN d.year_date = '2018' THEN d.real_time END) AS Year2018_real_time,
+    -- Estimated delivery times
+    AVG(CASE WHEN d.year_date = '2016' THEN d.estimated_time END) AS Year2016_estimated_time,
+    AVG(CASE WHEN d.year_date = '2017' THEN d.estimated_time END) AS Year2017_estimated_time,
+    AVG(CASE WHEN d.year_date = '2018' THEN d.estimated_time END) AS Year2018_estimated_time
+FROM delivery_times d
+GROUP BY d.month_no, d.month
+HAVING d.month_no IS NOT NULL
+ORDER BY d.month_no;
