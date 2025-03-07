@@ -16,18 +16,18 @@
 -- 3. Considera tomar order_id distintos.
 WITH delivery_times AS (
     SELECT 
-        ROUND(JULIANDAY(  STRFTIME( '%Y-%m-%d', oo.order_delivered_customer_date)) - JULIANDAY( STRFTIME('%Y-%m-%d', oo.order_purchase_timestamp )), 2) AS real_time,
-        ROUND(JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_estimated_delivery_date)) - JULIANDAY( STRFTIME( '%Y-%m-%d', oo.order_purchase_timestamp)), 2) AS estimated_time,
-        STRFTIME('%m', oo.order_delivered_customer_date) AS month_no,
-        CASE STRFTIME('%m', oo.order_delivered_customer_date)
+        JULIANDAY(  oo.order_delivered_customer_date) - JULIANDAY( oo.order_purchase_timestamp ) AS real_time,
+        JULIANDAY( oo.order_estimated_delivery_date) - JULIANDAY(  oo.order_purchase_timestamp) AS estimated_time,
+        STRFTIME('%m', oo.order_purchase_timestamp) AS month_no,
+        CASE STRFTIME('%m', oo.order_purchase_timestamp)
             WHEN '01' THEN 'Ene' WHEN '02' THEN 'Feb' WHEN '03' THEN 'Mar'
             WHEN '04' THEN 'Abr' WHEN '05' THEN 'May' WHEN '06' THEN 'Jun'
             WHEN '07' THEN 'Jul' WHEN '08' THEN 'Ago' WHEN '09' THEN 'Sep'
             WHEN '10' THEN 'Oct' WHEN '11' THEN 'Nov' WHEN '12' THEN 'Dic'
         END AS month,
-        STRFTIME('%Y', oo.order_delivered_customer_date) AS year_date
+        STRFTIME('%Y', oo.order_purchase_timestamp) AS year_date
     FROM olist_orders oo
-    WHERE oo.order_status = 'delivered' 
+    WHERE oo.order_status = 'delivered' AND oo.order_delivered_customer_date IS NOT NULL
 )
 SELECT 
     d.month_no,
