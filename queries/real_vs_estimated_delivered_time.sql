@@ -14,6 +14,7 @@
 -- 1. Puedes usar la función julianday para convertir una fecha a un número.
 -- 2. order_status == 'delivered' AND order_delivered_customer_date IS NOT NULL
 -- 3. Considera tomar order_id distintos.
+
 WITH delivery_times AS (
     SELECT 
         JULIANDAY(  oo.order_delivered_customer_date) - JULIANDAY( oo.order_purchase_timestamp ) AS real_time,
