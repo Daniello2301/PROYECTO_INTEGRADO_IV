@@ -6,7 +6,6 @@
 -- PISTA: Todos los pedidos deben tener un estado 'delivered' y tanto la categoría
 -- como la fecha real de entrega no deben ser nulas.
 
-
 SELECT
     pcnt.product_category_name_english AS Category,
     COUNT(DISTINCT ooi.order_id) AS Num_order,
