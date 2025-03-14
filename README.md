@@ -1,3 +1,8 @@
+
+> [!NOTE]
+> The python version used is: 3.13.2
+
+
 # Proyecto Integrador IV
 > Pipeline de Datos de E-Commerce
 
