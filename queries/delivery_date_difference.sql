@@ -17,4 +17,4 @@ FROM olist_orders oo
     ON oo.customer_id = oc.customer_id
 WHERE oo.order_delivered_customer_date IS NOT NULL AND oo.order_status = 'delivered'
 GROUP BY oc.customer_state
-ORDER BY Delivery_Difference ASC
+ORDER BY Delivery_Difference ASC;

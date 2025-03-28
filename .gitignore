@@ -3,5 +3,5 @@ venv/
 .pytest_cache/
 olist.db
 src/__pycache__/
-test/__pycache__/
+tests/__pycache__/
 .pytest_cache/
