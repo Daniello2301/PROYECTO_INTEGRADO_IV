@@ -13,19 +13,43 @@ def plot_revenue_by_month_year(df: DataFrame, year: int):
     Args:
         df (DataFrame): Dataframe with revenue by month and year query result
         year (int): It could be 2016, 2017 or 2018
-    """
+    
     matplotlib.rc_file_defaults()
     sns.set_style(style=None, rc=None)
 
     _, ax1 = plt.subplots(figsize=(12, 6))
 
-    sns.lineplot(data=df[f"Year{year}"], marker="o", sort=False, ax=ax1)
+    sns.lineplot(data=df[f"Year{year}"], marker="o",  ax=ax1)
     ax2 = ax1.twinx()
 
-    sns.barplot(data=df, x="month", y=f"Year{year}", alpha=0.5, ax=ax2)
+    sns.barplot(data=df, x="month", y=f"Year{year}", alpha=0.3, ax=ax2)
     ax1.set_title(f"Revenue by month in {year}")
 
     plt.show()
+    """
+       # Reset default matplotlib settings
+    plt.rcdefaults()
+    sns.set_style("whitegrid")
+
+    _, ax1 = plt.subplots(figsize=(12, 6))
+
+    # Correct line plot usage
+    sns.lineplot(data=df, x="month", y=f"Year{year}", marker="o", ax=ax1)
+
+    # Add bar plot for better visualization
+    ax2 = ax1.twinx()
+    sns.barplot(data=df, x="month", y=f"Year{year}", alpha=0.5, ax=ax2)
+
+    # Titles and labels
+    ax1.set_title(f"Revenue by Month in {year}")
+    ax1.set_ylabel("Revenue ($)")
+    ax2.set_ylabel("Revenue ($)")
+    ax1.set_xlabel("Month")
+
+    plt.xticks(rotation=45)
+    plt.show()
+
+
 
 
 def plot_real_vs_predicted_delivered_time(df: DataFrame, year: int):
